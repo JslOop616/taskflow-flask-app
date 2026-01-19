@@ -103,10 +103,3 @@ URL: [https://emikpro.pythonanywhere.com](https://emikpro.pythonanywhere.com)
 | GET | /health | Проверка работоспособности API | ❌ |
 | GET | /user/info | Информация о текущем пользователе | ✅ |
 
-### Примеры использования
-
-#### Получить все задачи:
-```bash
-curl -X GET https://emikpro.pythonanywhere.com/api/tasks \
-  -H "Cookie: session=your_session_cookie"
-
