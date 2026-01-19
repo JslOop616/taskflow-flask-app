@@ -1,17 +1,3 @@
-# TaskFlow - Flask Task Manager
-A full-featured task management web application with REST API.
-
-## Features
-- User authentication
-- Task CRUD operations
-- REST API
-- Responsive dashboard
-- SQLite database
-
-## Live Demo
-https://emikpro.pythonanywhere.com
-
-Test: test / test123
 # 📋 TaskFlow - Flask Task Management System
 
 [![Flask](https://img.shields.io/badge/Flask-2.3.3-000000?logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
