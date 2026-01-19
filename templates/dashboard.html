@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block title %}Панель управления{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-3">
+        <div class="card">
+            <div class="card-body text-center">
+                <div class="mb-3">
+                    <i class="fas fa-user-circle fa-4x text-primary"></i>
+                </div>
+                <h5>{{ current_user.username }}</h5>
+                <p class="text-muted">{{ current_user.email }}</p>
+                <p><small>Зарегистрирован: {{ current_user.created_at.strftime('%d.%m.%Y') }}</small></p>
+                <a href="{{ url_for('logout') }}" class="btn btn-outline-danger w-100">
+                    <i class="fas fa-sign-out-alt me-2"></i>Выйти
+                </a>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header">
+                <h6 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Статистика</h6>
+            </div>
+            <div class="card-body">
+                <p class="mb-2">Всего задач: <span class="badge bg-primary">{{ task_count }}</span></p>
+                <p class="mb-2">Выполнено: <span class="badge bg-success">{{ completed_count }}</span></p>
+                <p class="mb-2">В процессе: <span class="badge bg-warning">{{ pending_count }}</span></p>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header">
+                <h6 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Новая задача</h6>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('add_task') }}">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="title"
+                               placeholder="Название задачи" required>
+                    </div>
+                    <div class="mb-3">
+                        <textarea class="form-control" name="description"
+                                  rows="2" placeholder="Описание (необязательно)"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <select class="form-select" name="priority">
+                            <option value="low">🔵 Низкий приоритет</option>
+                            <option value="medium" selected>🟡 Средний приоритет</option>
+                            <option value="high">🔴 Высокий приоритет</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-plus me-2"></i>Добавить задачу
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-9">
+        <h3 class="mb-4"><i class="fas fa-tasks me-2"></i>Мои задачи</h3>
+
+        {% if tasks %}
+        <div class="row">
+            {% for task in tasks %}
+            <div class="col-md-6 mb-3">
+                <div class="card task-card task-{{ task.priority }}">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5 class="card-title">{{ task.title }}</h5>
+                                <p class="card-text text-muted">
+                                    {{ task.description or 'Без описания' }}
+                                </p>
+                            </div>
+                            <form method="POST" action="{{ url_for('complete_task', task_id=task.id) }}"
+                                  class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-outline-success">
+                                    {% if task.status == 'completed' %}
+                                    <i class="fas fa-undo me-1"></i>Вернуть
+                                    {% else %}
+                                    <i class="fas fa-check me-1"></i>Завершить
+                                    {% endif %}
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div>
+                                    <span class="badge bg-{{ 'success' if task.status == 'completed' else 'secondary' }}">
+                                        {% if task.status == 'completed' %}
+                                            <i class="fas fa-check-circle me-1"></i>Выполнена
+                                        {% else %}
+                                            <i class="fas fa-clock me-1"></i>В процессе
+                                        {% endif %}
+                                    </span>
+                                <span class="badge bg-{{ 'danger' if task.priority == 'high' else 'warning' if task.priority == 'medium' else 'info' }} ms-2">
+                                        {{ task.priority }}
+                                    </span>
+                            </div>
+                            <div>
+                                <form method="POST" action="{{ url_for('delete_task', task_id=task.id) }}"
+                                      class="d-inline" onsubmit="return confirm('Удалить задачу?')">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="mt-2">
+                            <small class="text-muted">
+                                <i class="far fa-clock me-1"></i>
+                                Создано: {{ task.created_at.strftime('%d.%m.%Y %H:%M') }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            У вас пока нет задач. Добавьте первую задачу с помощью формы слева!
+        </div>
+        {% endif %}
+
+        <div class="card mt-4">
+            <div class="card-header bg-dark text-white">
+                <h6 class="mb-0"><i class="fas fa-code me-2"></i>REST API</h6>
+            </div>
+            <div class="card-body">
+                <p>Доступные API endpoints (требуется авторизация):</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card bg-light mb-3">
+                            <div class="card-body">
+                                <h6>GET /api/tasks</h6>
+                                <small>Получить все задачи текущего пользователя</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card bg-light mb-3">
+                            <div class="card-body">
+                                <h6>POST /api/tasks</h6>
+                                <small>Создать новую задачу (JSON)</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Для использования API отправляйте запросы с заголовком авторизации
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
