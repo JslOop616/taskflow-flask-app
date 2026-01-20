@@ -16,6 +16,7 @@
 - Хеширование паролей с использованием Werkzeug
 - Сессионная аутентификация через Flask-Login
 - Защита маршрутов декоратором @login_required
+<img width="1573" height="701" alt="image" src="https://github.com/user-attachments/assets/0cdc5fa8-61e1-404c-aded-c979d82f27ba" />
 
 ### 📝 Управление задачами
 - Создание задач с заголовком, описанием и приоритетом
@@ -23,18 +24,21 @@
 - Редактирование статуса (выполнено/в процессе)
 - Удаление задач с подтверждением
 - Фильтрация задач по статусу и приоритету
+<img width="1053" height="686" alt="image" src="https://github.com/user-attachments/assets/0b3bbaa6-7ebe-4428-ae45-92ba4184ba07" />
 
 ###  REST API
 - Полный CRUD API для интеграции с другими системами
 - JSON-формат всех ответов
 - Аутентификация через сессии
 - Документированные эндпоинты
+<img width="1017" height="264" alt="image" src="https://github.com/user-attachments/assets/b6aaa857-9f76-4a85-8a03-8e1ecd08ae5e" />
 
 ###  Интерфейс пользователя
 - Адаптивный дизайн на Bootstrap 5
 - Мобильная версия для всех устройств
 - Интуитивная навигация между разделами
 - Визуальные индикаторы приоритета задач
+<img width="1817" height="951" alt="image" src="https://github.com/user-attachments/assets/28841738-eabd-41e3-a9e2-8a2a133d6fd1" />
 
 ##  Технологический стек
 
